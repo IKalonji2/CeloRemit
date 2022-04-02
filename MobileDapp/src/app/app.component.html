@@ -1,0 +1,26 @@
+<ion-app>
+  <ion-content>
+    <div class="content" *ngIf="!signedIn">
+      <div style="height: 80%; width: 80%; margin: auto; text-align: center; padding-top: 5rem;">
+        <img src="./../assets/img/celo-org.png" alt="">
+        <h1 class="title"><ion-label style="color: rgb(255, 187, 0);">Celo</ion-label><ion-label style="color: rgb(20, 196, 20);">Remit</ion-label></h1>
+      </div>
+      <div>
+        <div class="card-container">
+          <button class="card card-small" (click)="login()">Sign up/Login</button>
+        </div>
+      </div>
+    </div>
+    <router-outlet *ngIf="signedIn"></router-outlet>
+  </ion-content>
+  <ion-footer *ngIf="signedIn">
+    <ion-toolbar>
+      <ion-button (click)="logout()" expand="block" fill="clear" shape="round">
+        Logout
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>
+
+
+
