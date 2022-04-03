@@ -48,45 +48,45 @@ export class AppComponent implements OnInit{
     }
   ngOnInit(): void {
 
-    // const subscribeAuthEvents = (web3auth: Web3Auth) => {
-    //   web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
-    //     console.log("Yeah!, you are successfully logged in", data);
-    //     this.setLoginStatus(true);
-    //   });
+    const subscribeAuthEvents = (web3auth: Web3Auth) => {
+      web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
+        console.log("Yeah!, you are successfully logged in", data);
+        this.setLoginStatus(true);
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
-    //     console.log("connecting");
-    //   });
+      web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
+        console.log("connecting");
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
-    //     console.log("disconnected");
-    //     this.setLoginStatus(false);
-    //   });
+      web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
+        console.log("disconnected");
+        this.setLoginStatus(false);
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
-    //     console.log("some error or user have cancelled login request", error);
-    //   });
-    // };
+      web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+        console.log("some error or user have cancelled login request", error);
+      });
+    };
 
-    // const initializeModal = async () => {
-    //   console.log("INIT MODAL");
-    //   this.web3auth = new Web3Auth({
-    //     clientId,
-    //     chainConfig: CHAIN_CONFIG[this.chain],
-    //   });
-    //   const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
-    //   this.web3auth.configureAdapter(adapter);
+    const initializeModal = async () => {
+      console.log("INIT MODAL");
+      this.web3auth = new Web3Auth({
+        clientId,
+        chainConfig: CHAIN_CONFIG[this.chain],
+      });
+      const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
+      this.web3auth.configureAdapter(adapter);
 
-    //   subscribeAuthEvents(this.web3auth);
-    //   await this.web3auth.initModal();
-    //   this.isModalLoaded = true;
+      subscribeAuthEvents(this.web3auth);
+      await this.web3auth.initModal();
+      this.isModalLoaded = true;
 
-    //   if (this.isLoggedIn && !this.provider) {
-    //     const web3authProvider = await this.web3auth.connect();
-    //     if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-    //   }
-    // };
-    // initializeModal();
+      if (this.isLoggedIn && !this.provider) {
+        const web3authProvider = await this.web3auth.connect();
+        if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+      }
+    };
+    initializeModal();
   }
 
   selectChain(chain: string) {
@@ -152,17 +152,17 @@ export class AppComponent implements OnInit{
   }
 
   async login() {
-    // console.log("LOGGING IN");
-    // if (!this.web3auth) {
-    //   console.log("Web3auth is not initialized");
-    //   return;
-    // }
-    // const web3authProvider = await this.web3auth.connect();
-    // if (web3authProvider){
-    //   this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-    //   console.log(this.provider)
-    //   this.getUserInfo();
-    // } 
+    console.log("LOGGING IN");
+    if (!this.web3auth) {
+      console.log("Web3auth is not initialized");
+      return;
+    }
+    const web3authProvider = await this.web3auth.connect();
+    if (web3authProvider){
+      this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+      console.log(this.provider)
+      this.getUserInfo();
+    } 
     this.getUserInfo()
   }
 
@@ -178,17 +178,17 @@ export class AppComponent implements OnInit{
   }
 
   async getUserInfo() {
-    // console.log("GETTING USER INFO");
-    // if (!this.web3auth) {
-    //   console.log("Web3auth is not initialized");
-    //   return;
-    // }
-    // const userInfo = await this.web3auth.getUserInfo();
-    // console.log(userInfo)
-    // let user = userInfo.email;
-    // console.log(this.domain)
-    this.setAccount("testing123");
-    // this.uiConsole("User Info", userInfo);
+    console.log("GETTING USER INFO");
+    if (!this.web3auth) {
+      console.log("Web3auth is not initialized");
+      return;
+    }
+    const userInfo = await this.web3auth.getUserInfo();
+    console.log(userInfo)
+    let user = userInfo.email;
+    console.log(this.domain)
+    this.setAccount(user);
+    this.uiConsole("User Info", userInfo);
   }
 
   async getBalance() {
