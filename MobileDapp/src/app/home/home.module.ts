@@ -11,6 +11,7 @@ import { ScanPaymentComponent } from './scan-payment/scan-payment.component';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactsComponent } from './contacts/contacts.component';
+import { TransakCryptoPurchaseComponent } from './transak-crypto-purchase/transak-crypto-purchase.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { ContactsComponent } from './contacts/contacts.component';
     NgxQRCodeModule,
     HttpClientModule,
   ],
-  declarations: [HomePage,CreateQrComponent,ScanPaymentComponent,ContactsComponent],
+  declarations: [HomePage,CreateQrComponent,ScanPaymentComponent,ContactsComponent, TransakCryptoPurchaseComponent],
   providers: [BarcodeScanner]
 })
 export class HomePageModule {}

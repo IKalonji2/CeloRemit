@@ -7,7 +7,19 @@
       </div>
       <div>
         <div class="card-container">
-          <button class="card card-small" (click)="login()">Sign up/Login</button>
+          <button class="card card-small" (click)="loginUnstoppable()">
+            Login
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="card-container">
+          <button class="card card-small" (click)="loginWeb3Auth()">
+            <ion-icon slot="start" name="logo-google"></ion-icon> | 
+            <ion-icon slot="start" name="logo-twitter"></ion-icon> |
+            <ion-icon slot="start" name="logo-facebook"></ion-icon> |
+            <ion-icon slot="start" name="logo-linkedin"></ion-icon>
+          </button>
         </div>
       </div>
     </div>

@@ -11,6 +11,13 @@ import { CHAIN_CONFIG, CHAIN_CONFIG_TYPE } from "./../config/chains";
 import { WEB3AUTH_NETWORK_TYPE } from "./../config/web3auth-networks";
 import { getWalletProvider, IWalletProvider } from "./../services/wallet-provider";
 
+import UAuth from '@uauth/js'
+
+const uauth = new UAuth({
+  clientID: '63a2b924-84bc-411c-b976-374959e535c2',
+  redirectUri: 'http://localhost:8100/home',
+});
+
 const clientId = "BKPxkCtfC9gZ5dj-eg-W6yb5Xfr3XkxHuGZl2o2Bn8gKQ7UYike9Dh6c-_LaXlUN77x0cBoPwcSx-IVm0llVsLA";
 
 @Component({
@@ -46,47 +53,48 @@ export class AppComponent implements OnInit{
       });
       this.initAppToBackend()
     }
+    
   ngOnInit(): void {
 
-    // const subscribeAuthEvents = (web3auth: Web3Auth) => {
-    //   web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
-    //     console.log("Yeah!, you are successfully logged in", data);
-    //     this.setLoginStatus(true);
-    //   });
+    const subscribeAuthEvents = (web3auth: Web3Auth) => {
+      web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
+        console.log("Yeah!, you are successfully logged in", data);
+        this.setLoginStatus(true);
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
-    //     console.log("connecting");
-    //   });
+      web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
+        console.log("connecting");
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
-    //     console.log("disconnected");
-    //     this.setLoginStatus(false);
-    //   });
+      web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
+        console.log("disconnected");
+        this.setLoginStatus(false);
+      });
 
-    //   web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
-    //     console.log("some error or user have cancelled login request", error);
-    //   });
-    // };
+      web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+        console.log("some error or user have cancelled login request", error);
+      });
+    };
 
-    // const initializeModal = async () => {
-    //   console.log("INIT MODAL");
-    //   this.web3auth = new Web3Auth({
-    //     clientId,
-    //     chainConfig: CHAIN_CONFIG[this.chain],
-    //   });
-    //   const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
-    //   this.web3auth.configureAdapter(adapter);
+    const initializeModal = async () => {
+      console.log("INIT MODAL");
+      this.web3auth = new Web3Auth({
+        clientId,
+        chainConfig: CHAIN_CONFIG[this.chain],
+      });
+      const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
+      this.web3auth.configureAdapter(adapter);
 
-    //   subscribeAuthEvents(this.web3auth);
-    //   await this.web3auth.initModal();
-    //   this.isModalLoaded = true;
+      subscribeAuthEvents(this.web3auth);
+      await this.web3auth.initModal();
+      this.isModalLoaded = true;
 
-    //   if (this.isLoggedIn && !this.provider) {
-    //     const web3authProvider = await this.web3auth.connect();
-    //     if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-    //   }
-    // };
-    // initializeModal();
+      if (this.isLoggedIn && !this.provider) {
+        const web3authProvider = await this.web3auth.connect();
+        if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+      }
+    };
+    initializeModal();
   }
 
   selectChain(chain: string) {
@@ -151,18 +159,29 @@ export class AppComponent implements OnInit{
     );
   }
 
-  async login() {
-    // console.log("LOGGING IN");
-    // if (!this.web3auth) {
-    //   console.log("Web3auth is not initialized");
-    //   return;
-    // }
-    // const web3authProvider = await this.web3auth.connect();
-    // if (web3authProvider){
-    //   this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-    //   console.log(this.provider)
-    //   this.getUserInfo();
-    // } 
+  async loginUnstoppable(){
+    console.log("on click pressed")
+    try {
+      const authorization = await uauth.loginWithPopup()
+      console.log(authorization.idToken.sub)
+      this.setAccount(authorization.idToken.sub);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async loginWeb3Auth() {
+    console.log("LOGGING IN");
+    if (!this.web3auth) {
+      console.log("Web3auth is not initialized");
+      return;
+    }
+    const web3authProvider = await this.web3auth.connect();
+    if (web3authProvider){
+      this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+      console.log(this.provider)
+      this.getUserInfo();
+    } 
     this.getUserInfo()
   }
 
@@ -178,17 +197,17 @@ export class AppComponent implements OnInit{
   }
 
   async getUserInfo() {
-    // console.log("GETTING USER INFO");
-    // if (!this.web3auth) {
-    //   console.log("Web3auth is not initialized");
-    //   return;
-    // }
-    // const userInfo = await this.web3auth.getUserInfo();
-    // console.log(userInfo)
-    // let user = userInfo.email;
-    // console.log(this.domain)
-    this.setAccount("testing123");
-    // this.uiConsole("User Info", userInfo);
+    console.log("GETTING USER INFO");
+    if (!this.web3auth) {
+      console.log("Web3auth is not initialized");
+      return;
+    }
+    const userInfo = await this.web3auth.getUserInfo();
+    console.log(userInfo)
+    let user = userInfo.email;
+    console.log(this.domain)
+    this.setAccount(user);
+    this.uiConsole("User Info", userInfo);
   }
 
   async getBalance() {

@@ -3,6 +3,10 @@ import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-sca
 import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { ApiServiceService } from '../../../services/api-service.service';
 
+import { Resolution } from '@unstoppabledomains/resolution';
+
+const resolution = new Resolution();
+
 
 @Component({
   selector: 'app-cash-out',
@@ -14,6 +18,8 @@ export class ScanPaymentComponent implements OnInit {
   data: string = '';
   jsonData: any;
   amount: string = '';
+  domain: string = "";
+  address:string = "";
 
   constructor(private barcodeScanner: BarcodeScanner,
     private toastController: ToastController,
@@ -24,6 +30,16 @@ export class ScanPaymentComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  resolveMultiChain(currency:string = "USDT", chain:string = "ERC20") {
+    resolution
+      .multiChainAddr(this.domain, currency, chain)
+      .then((address) => {
+        console.log(this.domain, 'resolves to', address);
+        this.address = address;
+      })
+      .catch(console.error);
   }
 
   scanner(){
@@ -48,6 +64,15 @@ export class ScanPaymentComponent implements OnInit {
       console.log('Error', err);
       this.showError(err);
     });
+  }
+
+  async submitDomain(){
+    await this.apiService.getUser(this.domain).subscribe(meta => {
+      let data:any = meta;
+      let accountId = data["account_metadata"].account_id;
+      this.paymentType(accountId, this.domain);
+      this.modalController.dismiss()
+    })
   }
 
   async paymentType(receiver:string,username:string ) {

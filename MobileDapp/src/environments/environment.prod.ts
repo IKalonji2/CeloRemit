@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  urlLocal: "",
-  urlDeployed: "",
-  API_KEY: "2c887601-4d2d-41d3-bfc4-f2e6eb4fdf11_100",
+  urlLocal: "http://0e77-197-184-183-83.ngrok.io",
+  urlDeployed: "http://0e77-197-184-183-83.ngrok.io",
+  API_KEY: "",
   web3auth: ""
 }

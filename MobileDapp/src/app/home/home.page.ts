@@ -3,6 +3,7 @@ import { AlertController, LoadingController, ModalController } from '@ionic/angu
 import { HomePageCards } from '../../models/home-cards.models';
 import { ApiServiceService } from '../../services/api-service.service';
 import { ContactsComponent } from './contacts/contacts.component';
+import { TransakCryptoPurchaseComponent } from './transak-crypto-purchase/transak-crypto-purchase.component';
 
 @Component({
   selector: 'app-home',
@@ -38,31 +39,32 @@ export class HomePage implements OnInit{
   async cashInCashOut(id:string){
     switch(id){
       case "cashin":
-        let alertController = await this.alertController.create({
-          header: "Voucher",
-          message: "Please enter voucher number ",
-          inputs:[{
-            name: 'voucherNumber',
-            type: 'text',
-            placeholder: 'Voucher number'
-          }],
-          buttons: [
-            {
-              text: 'CONFIRM',
-              handler: () => {
-                this.showProgressSpinner();
-                this.apiService.postTopUp("500").subscribe(meta =>{
-                  let data:any = meta;
-                  console.log(data)
-                  this.getBalAndTransactions();
-                  this.loadingController.dismiss()
-                });
+        this.displayModal('transak');
+        // let alertController = await this.alertController.create({
+        //   header: "Voucher",
+        //   message: "Please enter voucher number ",
+        //   inputs:[{
+        //     name: 'voucherNumber',
+        //     type: 'text',
+        //     placeholder: 'Voucher number'
+        //   }],
+        //   buttons: [
+        //     {
+        //       text: 'CONFIRM',
+        //       handler: () => {
+        //         this.showProgressSpinner();
+        //         this.apiService.postTopUp("500").subscribe(meta =>{
+        //           let data:any = meta;
+        //           console.log(data)
+        //           this.getBalAndTransactions();
+        //           this.loadingController.dismiss()
+        //         });
 
-              }
-            },
-          ]
-        });
-        await alertController.present();
+        //       }
+        //     },
+        //   ]
+        // });
+        // await alertController.present();
         break;
       case "cashout":
         let alertControllerSecond = await this.alertController.create({
@@ -85,8 +87,11 @@ export class HomePage implements OnInit{
   async displayModal(row:any){
     let componentToLoad;
     if (row == 'contacts'){
-      componentToLoad = ContactsComponent
-    }else{
+      componentToLoad = ContactsComponent;
+    }else if(row == 'transak'){
+      componentToLoad = TransakCryptoPurchaseComponent;
+    }
+    else{
       componentToLoad = row.component
     }
     const account = await this.modalController.create(

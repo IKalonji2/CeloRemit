@@ -12,8 +12,20 @@
       <ion-input type="text" placeholder="amount" [(ngModel)]="amount"></ion-input>
     </ion-card-content>
   </ion-card>
+  <div style="text-align: center;">
+    <ion-label>Click scan QR below or enter receivers domain</ion-label>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <ion-label>Enter receivers domain</ion-label>
+      <ion-input type="text" placeholder="domain" [(ngModel)]="domain"></ion-input>
+      <ion-button (click)="submitDomain()" expand="block" fill="solid" shape="round">
+        Click me
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
   <ion-button (click)="scanner()" expand="block" fill="outline" shape="round">
-    <ion-label>Proceed</ion-label>
+    <ion-label>Scan receiver QR</ion-label>
   </ion-button>
   <div>
     <ion-button (click)="back()" expand="block" fill="clear" shape="round">

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  urlLocal: "http://127.0.0.1:5000",
-  urlDeployed: "http://127.0.0.1:5000",
+  urlLocal: "http://0e77-197-184-183-83.ngrok.io",
+  urlDeployed: "http://0e77-197-184-183-83.ngrok.io",
   API_KEY: "",
   web3auth: ""
 };
