@@ -24,8 +24,8 @@
     <a href="https://github.com/IKalonji2/CeloRemit/blob/main/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <!-- <a href="https://www.youtube.com/watch?v=N76TsQxOQp8">View Demo</a>
-    · -->
+    <a href="https://www.youtube.com/watch?v=Xh6tjOwnLgw">View Demo</a>
+    ·
     <a href="https://github.com/IKalonji2/CeloRemit/issues">Report Bug</a>
     ·
     <a href="https://github.com/IKalonji2/CeloRemit/issues">Request Feature</a>
@@ -197,10 +197,10 @@ Please install the below required software in order to run the project.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-<!-- [Video Demo](https://www.youtube.com/watch?v=N76TsQxOQp8) -->
+[Video Demo](https://www.youtube.com/watch?v=Xh6tjOwnLgw)
 
 
-<!-- [![DEMO](https://img.youtube.com/vi/N76TsQxOQp8/0.jpg)](https://www.youtube.com/watch?v=N76TsQxOQp8) -->
+[![DEMO](https://img.youtube.com/vi/Xh6tjOwnLgw/0.jpg)](https://www.youtube.com/watch?v=Xh6tjOwnLgw)
 
 _Please refer to the [Documentation](https://github.com/IKalonji2/CeloRemit/blob/main/README.md)_
 
