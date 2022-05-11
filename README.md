@@ -19,12 +19,12 @@
   <h3 align="center">CeloRemit</h3>
 
   <p align="center">
-    An awesome lightweight P2P payments and escrow wallet with Web3Auth integration! 
+    An awesome lightweight P2P payments and escrow wallet with Unstoppable Domains login + resolution, Transak and Web3Auth social login integration! 
     <br />
     <a href="https://github.com/IKalonji2/CeloRemit/blob/main/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://www.youtube.com/watch?v=Xh6tjOwnLgw">View Demo</a>
+    <a href="https://youtu.be/xhwSZAAwND8">View Demo</a>
     ·
     <a href="https://github.com/IKalonji2/CeloRemit/issues">Report Bug</a>
     ·
@@ -83,6 +83,8 @@ CeloRemit eliminates the need for a bank accounts, and the use of cash in the Ma
 ### Built With
 
 * [Celo](https://celo.org/)
+* [Unstoppable Domains](https://unstoppabledomains.com/)
+* [Transak](https://transak.gitbook.io/)
 * [Tatum](https://tatum.io/)
 * [Ionic](https://ionicframework.com/)
 * [Angular](https://angular.io/)
@@ -197,10 +199,10 @@ Please install the below required software in order to run the project.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-[Video Demo](https://www.youtube.com/watch?v=Xh6tjOwnLgw)
+[Video Demo](https://youtu.be/xhwSZAAwND8)
 
 
-[![DEMO](https://img.youtube.com/vi/Xh6tjOwnLgw/0.jpg)](https://www.youtube.com/watch?v=Xh6tjOwnLgw)
+[![DEMO](https://img.youtube.com/vi/xhwSZAAwND8/0.jpg)](https://youtu.be/xhwSZAAwND8)
 
 _Please refer to the [Documentation](https://github.com/IKalonji2/CeloRemit/blob/main/README.md)_
 
@@ -210,7 +212,7 @@ _Please refer to the [Documentation](https://github.com/IKalonji2/CeloRemit/blob
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add Card payments
+- [ ] Add live Card payments with Transak
 - [ ] Add Voucher provider
 - [ ] Add App security
 - [ ] Add backend hosting
@@ -287,4 +289,4 @@ Project Link: [https://github.com/IKalonji2/CeloRemit](https://github.com/IKalon
 [license-url]: https://github.com/IKalonji2/CeloRemit/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/issa-kalonji-b301851ba/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: https://img.youtube.com/vi/xhwSZAAwND8/0.jpg

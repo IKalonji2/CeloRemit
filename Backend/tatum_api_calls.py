@@ -24,6 +24,7 @@ def create_user_account(username, api_key):
     res = conn.getresponse()
     data = res.read()
     user_data = json.loads(data.decode("utf-8")) 
+    print(user_data)
     #add to user dict
     user_object = User(customer_id=username,account_id=user_data['id'], account_code=user_data['accountCode'],account_number=account_number)
     accounts_dict[username.lower()] = user_object
