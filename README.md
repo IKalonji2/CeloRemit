@@ -257,7 +257,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Issa Kalonji - [@ISSDawg](https://twitter.com/ISSDawg) - ikalonji@student.wethinkcode.co.za
+Issa Kalonji - [@ISSDawg](https://twitter.com/ISSDawg) - ikalonji@student.wethinkcode.co.za - [Discord](Issa_Kalonji#4638)
 
 Project Link: [https://github.com/IKalonji2/CeloRemit](https://github.com/IKalonji2/CeloRemit)
 
@@ -268,6 +268,7 @@ Project Link: [https://github.com/IKalonji2/CeloRemit](https://github.com/IKalon
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* [Unstoppable Domains](https://unstoppabledomains.com/)
 * [Web3Auth](https://web3auth.io/)
 * [Tatum](https://tatum.io)
 * [Celo](https://celo.org/)
