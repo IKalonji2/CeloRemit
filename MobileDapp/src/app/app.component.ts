@@ -16,7 +16,7 @@ import UAuth from '@uauth/js'
 const uauth = new UAuth({
   clientID: "a892174c-662d-46f2-9059-37e2a786da24",
   redirectUri: "https://celo-remit.vercel.app/home",
-  scope: "openid wallet email:optional humanity_check:optional"
+  // scope: "openid wallet email:optional humanity_check:optional"
 });
 
 const clientId = "BKPxkCtfC9gZ5dj-eg-W6yb5Xfr3XkxHuGZl2o2Bn8gKQ7UYike9Dh6c-_LaXlUN77x0cBoPwcSx-IVm0llVsLA";
