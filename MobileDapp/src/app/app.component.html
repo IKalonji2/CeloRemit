@@ -1,37 +1,21 @@
 <ion-app>
   <ion-content>
-    <div class="content" *ngIf="!signedIn">
-      <div style="height: 80%; width: 80%; margin: auto; text-align: center; padding-top: 5rem;">
+    <div class="content" *ngIf="!isLoggedIn">
+      <div style="height: 60%; width: 80%; margin: auto; text-align: center; padding-top: 5rem;">
         <img src="./../assets/img/celo-org.png" alt="">
         <h1 class="title"><ion-label style="color: rgb(255, 187, 0);">Celo</ion-label><ion-label style="color: rgb(20, 196, 20);">Remit</ion-label></h1>
+        <ion-input type="search" placeholder="username (demo-no-validation)" style="border: 1px solid rgb(255, 187, 0);" [(ngModel)]="user"></ion-input>
       </div>
       <div>
         <div class="card-container">
-          <button class="card card-small" (click)="loginUnstoppable()">
-            Login
-          </button>
-        </div>
-      </div>
-      <div>
-        <div class="card-container">
-          <button class="card card-small" (click)="loginWeb3Auth()">
-            <ion-icon slot="start" name="logo-google"></ion-icon> | 
-            <ion-icon slot="start" name="logo-twitter"></ion-icon> |
-            <ion-icon slot="start" name="logo-facebook"></ion-icon> |
-            <ion-icon slot="start" name="logo-linkedin"></ion-icon>
+          <button class="card card-small" (click)="login()">
+            <ion-icon slot="start" name="log-in-outline" size="large"></ion-icon> Login
           </button>
         </div>
       </div>
     </div>
-    <router-outlet *ngIf="signedIn"></router-outlet>
+    <router-outlet *ngIf="isLoggedIn"></router-outlet>
   </ion-content>
-  <ion-footer *ngIf="signedIn">
-    <ion-toolbar>
-      <ion-button (click)="logout()" expand="block" fill="clear" shape="round">
-        Logout
-      </ion-button>
-    </ion-toolbar>
-  </ion-footer>
 </ion-app>
 
 

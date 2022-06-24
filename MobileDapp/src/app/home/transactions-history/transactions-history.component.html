@@ -1,0 +1,45 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar style="text-align: center;">
+      <ion-icon name="chevron-down-outline" style="color: rgb(0, 0, 0);" size="large"></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+<ion-content>
+    <div style="text-align: center; font-weight: 600;">
+        <ion-label>Previous Transactions</ion-label>
+      </div>
+      <div *ngIf="transactionCards.length == 0" style="text-align: center;">
+        <br>
+        <br>
+        <br>
+        <ion-label>No transactions Available</ion-label>
+      </div>
+        <ion-card *ngFor="let trans of transactionCards">
+          <ion-card-content>
+            <div>
+              <ion-label>To/From: {{trans['counterAccount']}}</ion-label>
+            </div>
+            <div>
+              <ion-label>Date: {{trans['date']}}</ion-label>
+            </div>
+            <div>
+              <ion-label>Type: {{trans['type']}}</ion-label>
+            </div>
+            <div>
+              <ion-label>Amount: </ion-label>
+              <ion-label [ngClass]="{'receipt' : trans['amount'][0]!='-', 'payment' : trans['amount'][0]=='-'}" style="font-weight: 600;">{{trans['amount']}}</ion-label>
+            </div>
+            <ion-button *ngIf="trans['type'] == 'ESCROW' && trans['amount'][0]=='-' " (click)="approve(trans)" expand="block" fill="solid" shape="">
+              <ion-label>Approve</ion-label>
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+</ion-content>
+
+<style>
+  .receipt{
+    color: green;
+  }
+  .payment{
+    color: red;
+  }
+</style>

@@ -1,35 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar >
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar style="text-align: center;">
+    <ion-icon name="chevron-down-outline" style="color: rgb(0, 0, 0);" size="large"></ion-icon>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div style="text-align: center;">
-    <ion-label>Transaction amount</ion-label>
+  <div style="text-align: center; font-weight: 800;">
+    <ion-label>Send cUSD</ion-label>
   </div>
   <ion-card>
     <ion-card-content>
-      <ion-label>Please enter amount to transfer/cash out.</ion-label>
-      <ion-input type="text" placeholder="amount" [(ngModel)]="amount"></ion-input>
+      <ion-input type="text" placeholder="Amount" [(ngModel)]="amount"></ion-input>
     </ion-card-content>
   </ion-card>
-  <div style="text-align: center;">
-    <ion-label>Click scan QR below or enter receivers domain</ion-label>
-  </div>
   <ion-card>
     <ion-card-content>
-      <ion-label>Enter receivers domain</ion-label>
-      <ion-input type="text" placeholder="domain" [(ngModel)]="domain"></ion-input>
-      <ion-button (click)="submitDomain()" expand="block" fill="solid" shape="round">
-        Click me
-      </ion-button>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="jsonData.username"></ion-input>
     </ion-card-content>
   </ion-card>
-  <ion-button (click)="scanner()" expand="block" fill="outline" shape="round">
-    <ion-label>Scan receiver QR</ion-label>
+  <ion-button (click)="scanner()" expand="block" fill="clear" shape="round">
+    <ion-label style="text-decoration: underline;">SCAN QR</ion-label>
   </ion-button>
-  <div>
-    <ion-button (click)="back()" expand="block" fill="clear" shape="round">
-      Back
-    </ion-button>
-  </div> 
+  <br>
+  <br>
+  <br>
+  <ion-button (click)="submitPayment()" expand="block" fill="solid" shape="round">
+    Send Payment
+  </ion-button>
 </ion-content>

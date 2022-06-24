@@ -12,6 +12,7 @@ account_number = 00000
 #Tatum request API calls
 def create_user_account(username, api_key):
     #create user account
+    print("in api request")
     global account_number, accounts_dict
     account_number += 1
     conn = http.client.HTTPSConnection("api-eu1.tatum.io")
@@ -179,6 +180,26 @@ def escrow_clear_amount(account_id, request_body, api_key):
                 return responseDict
             return json.loads(data.decode("utf-8"))
     return json.loads(data.decode("utf-8"))
+
+def stake_amount_to_main(username,account_id, amount, main_wallet):
+    request_body = {
+    "receiver": main_wallet.main_account_id,
+    "amount": amount,
+    "type": "LENDING STAKE"
+    }
+    accounts_dict[username].user["staked"] += int(amount)
+
+    return payment_transfer(account_id, request_body, main_wallet.key)
+
+def borrow_amount_from_pool(username,account_id, amount, main_wallet):
+    
+    request_body = {
+        "receiver": account_id,
+        "amount": amount,
+        "type": "LOAN RECEIVED"
+    }
+    accounts_dict[username].user["outstanding"] += int(amount)
+    return payment_transfer(main_wallet.main_account_id, request_body, main_wallet.key)
 
 def convert_epoch_time(epoch_time):
     epoch_str_to_epoch_milli_sec = epoch_time[:-3]+"."+epoch_time[-3:]

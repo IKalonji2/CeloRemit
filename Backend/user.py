@@ -6,7 +6,10 @@ class User():
             "account_id": account_id,
             "account_code": account_code,
             "account_number": account_number,
-            "contacts":[]
+            "contacts":[],
+            "outstanding": 0,
+            "staked": 0,
+            "tree_points": 0
         }
         print("User created: ", self.user)
 

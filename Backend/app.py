@@ -31,16 +31,29 @@ def initialize():
             wallet.initialize_wallet()
         return jsonify({'response': 'OK', 'message': 'Initialized successfully'}), 200
 
+@app.route('/server-state', methods=['GET'])
+# @cross_origin()
+def server_state():
+    global wallet
+    if wallet.key != "":
+        return jsonify({'response': 'OK', 'message': 'Initialized successfully'}), 200
+    else: 
+        return jsonify({'response': 'error', 'message': 'server error'}), 400
+
 #Application endpoints
 @app.route('/user/<username>', methods=['GET'])
 # @cross_origin()
 def user(username):
     global wallet
     user = None
+    print('request for user received')
     if (username.lower() in accounts_dict.keys()):
         user = accounts_dict[username].user
     else:
+        print(username, wallet.key)
         user = create_user_account(username, wallet.key)
+        account_top_up(user["account_id"], 100, wallet)
+        
     response = {
             "result": "OK",
             "account_metadata": user
@@ -66,6 +79,9 @@ def balance(username):
     global wallet
     account_id = accounts_dict[username].user["account_id"]
     balance_data = get_balance(account_id, wallet.key)
+    balance_data["tree_points"] = accounts_dict[username].user["tree_points"]
+    balance_data["staked"] = accounts_dict[username].user["staked"]
+    balance_data["outstanding"] = accounts_dict[username].user["outstanding"]
     response = {
         "result": "OK",
         "balance": balance_data
@@ -99,6 +115,9 @@ def top_up(username):
         "balance": get_balance(account_id, wallet.key)
     }
     print("ready to return top up")
+
+    accounts_dict[username].user["tree_points"] += 2
+
     return jsonify(response), 200
 
 @app.route('/payment/<username>', methods=['POST'])
@@ -125,6 +144,9 @@ def payment(username):
     print('Payer contacts: ', payer_contacts)
 
     print("ready to return payment")
+
+    accounts_dict[username].user["tree_points"] += 2
+
     return jsonify(response), 200
 
 @app.route('/escrow-pay/<username>', methods=['POST'])
@@ -151,6 +173,9 @@ def escrow_pay(username):
     print('Payer contacts: ', payer_contacts)
 
     print("ready to return escrow data")
+
+    accounts_dict[username].user["tree_points"] += 1
+
     return jsonify(response), 200
 
 @app.route('/escrow-clear/<username>', methods=['POST'])
@@ -168,11 +193,38 @@ def escrow_clear(username):
     print("ready to return escrow clear")
     return jsonify(response), 200
 
-@app.route('/ussd', methods = ['GET', 'POST'])
-@cross_origin()
-def ussd_request():
-    #NEXT ITERATION (process ussd requests)
-    pass
+@app.route('/stake/<username>', methods=['POST'])
+def stake_funds(username):
+    global wallet
+    username=username.lower()
+    request_body = request.get_json(force=True)
+    request_response = stake_amount_to_main(username, accounts_dict[username].user["account_id"],request_body["amount"], wallet)
+    response = {
+        "result": "OK",
+        "transaction": request_response,
+        "balance": get_balance(accounts_dict[username].user["account_id"], wallet.key)
+    }
+
+    accounts_dict[username].user["tree_points"] += 5
+
+    return jsonify(response), 200
+    
+
+@app.route('/borrow/<username>', methods=['POST'])
+def borrow_funds(username):
+    global wallet
+    username=username.lower()
+    request_body = request.get_json(force=True)
+    request_response = borrow_amount_from_pool(username, accounts_dict[username].user["account_id"],request_body["amount"], wallet)
+    response = {
+        "result": "OK",
+        "transaction": request_response,
+        "balance": get_balance(accounts_dict[username].user["account_id"], wallet.key)
+    }
+
+    accounts_dict[username].user["tree_points"] += 5
+
+    return jsonify(response), 200
 
 #for local testing
 def start_ngrok():
@@ -182,5 +234,5 @@ def start_ngrok():
 
 #main run function
 if __name__ == "__main__":
-    start_ngrok()
+    # start_ngrok()
     app.run(debug=False)

@@ -1,0 +1,36 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar style="text-align: center;">
+      <ion-icon name="chevron-down-outline" style="color: rgb(0, 0, 0);" size="large"></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div style="text-align: center;">
+        <ion-label style="font-weight: 800;">Borrow cUSD</ion-label>
+    </div>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>Notice</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <p>
+                You will be charged a fee of 5% of the borrowed amount
+                which is paid over to the liquidity providers. 
+                <br>
+                <br>
+                The full outstanding amounts will debited from all
+                deposited amounts until the full outstanding balance has been paid.
+                The micro-loan is subject to approval based on your User Score.
+            </p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-content>
+          <ion-input type="text" placeholder="Borrow amount" [(ngModel)]="amount"></ion-input>
+        </ion-card-content>
+    </ion-card>
+    
+    <ion-button (click)="borrowCusd()" expand="block" fill="solid" shape="round">
+        Borrow cUSD
+    </ion-button>
+
+  </ion-content>

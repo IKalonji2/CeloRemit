@@ -4,6 +4,7 @@ import { AlertController, LoadingController, ModalController, ToastController } 
 import { ApiServiceService } from '../../../services/api-service.service';
 
 import { Resolution } from '@unstoppabledomains/resolution';
+import { UserDetails } from 'src/models/user-account.models';
 
 const resolution = new Resolution();
 
@@ -16,10 +17,8 @@ const resolution = new Resolution();
 export class ScanPaymentComponent implements OnInit {
   
   data: string = '';
-  jsonData: any;
-  amount: string = '';
-  domain: string = "";
-  address:string = "";
+  jsonData: UserDetails = {receiver: "", username: ""};
+  amount: string = ""
 
   constructor(private barcodeScanner: BarcodeScanner,
     private toastController: ToastController,
@@ -32,18 +31,7 @@ export class ScanPaymentComponent implements OnInit {
     
   }
 
-  resolveMultiChain(currency:string = "USDT", chain:string = "ERC20") {
-    resolution
-      .multiChainAddr(this.domain, currency, chain)
-      .then((address) => {
-        console.log(this.domain, 'resolves to', address);
-        this.address = address;
-      })
-      .catch(console.error);
-  }
-
   scanner(){
-    // this.data = null;
     const options: BarcodeScannerOptions = {
       preferFrontCamera: false,
       showFlipCameraButton: true,
@@ -55,10 +43,8 @@ export class ScanPaymentComponent implements OnInit {
       orientation: 'portrait',
     };
     this.barcodeScanner.scan(options).then(barcodeData => {
-      // console.log('Barcode data', barcodeData);
       this.data = barcodeData.text;
       this.jsonData = JSON.parse(this.data);
-      this.paymentType(this.jsonData.receiver, this.jsonData.username)
       this.modalController.dismiss()
     }).catch(err => {
       console.log('Error', err);
@@ -66,16 +52,7 @@ export class ScanPaymentComponent implements OnInit {
     });
   }
 
-  async submitDomain(){
-    await this.apiService.getUser(this.domain).subscribe(meta => {
-      let data:any = meta;
-      let accountId = data["account_metadata"].account_id;
-      this.paymentType(accountId, this.domain);
-      this.modalController.dismiss()
-    })
-  }
-
-  async paymentType(receiver:string,username:string ) {
+  async paymentType() {
     let alertPaymentMethod = await this.alertController.create(
       {
         header: "Please select payment type",
@@ -83,7 +60,7 @@ export class ScanPaymentComponent implements OnInit {
           text: 'IMMEDIATE',
           handler: ()=>{
             this.showProgressSpinner();
-            this.apiService.postPayment(this.amount, receiver, username).subscribe(meta => {
+            this.apiService.postPayment(this.amount, this.jsonData.receiver, this.jsonData.username).subscribe(meta => {
               let data = meta;
               console.log(data)
               this.loadingController.dismiss()
@@ -94,7 +71,7 @@ export class ScanPaymentComponent implements OnInit {
           text: 'ESCROW',
           handler: ()=>{
             this.showProgressSpinner()
-            this.apiService.postEscrowPayment(this.amount, receiver, username).subscribe(meta => {
+            this.apiService.postEscrowPayment(this.amount, this.jsonData.receiver, this.jsonData.username).subscribe(meta => {
               let data:any = meta;
               console.log(data);
               this.loadingController.dismiss()
@@ -139,8 +116,14 @@ export class ScanPaymentComponent implements OnInit {
     await errorToast.present();
   }
 
-  back(){
-    this.modalController.dismiss()
+  submitPayment(){
+    this.apiService.getUser(this.jsonData.username).subscribe(meta => {
+      let data: any = meta;
+      this.jsonData.receiver = data["account_metadata"].account_id;
+      this.modalController.dismiss();
+      this.paymentType();
+    })
+    
   }
 
 }

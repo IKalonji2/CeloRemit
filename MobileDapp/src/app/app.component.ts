@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { ApiServiceService } from '../services/api-service.service';
 
 import { ADAPTER_EVENTS } from "@web3auth/base";
@@ -11,15 +11,9 @@ import { CHAIN_CONFIG, CHAIN_CONFIG_TYPE } from "./../config/chains";
 import { WEB3AUTH_NETWORK_TYPE } from "./../config/web3auth-networks";
 import { getWalletProvider, IWalletProvider } from "./../services/wallet-provider";
 
-import UAuth from '@uauth/js'
+import { UserServiceService } from "src/services/user-service.service";
 
-const uauth = new UAuth({
-  clientID: "a892174c-662d-46f2-9059-37e2a786da24",
-  redirectUri: "https://celo-remit.vercel.app/home",
-  // scope: "openid wallet email:optional humanity_check:optional"
-});
-
-const clientId = "BKPxkCtfC9gZ5dj-eg-W6yb5Xfr3XkxHuGZl2o2Bn8gKQ7UYike9Dh6c-_LaXlUN77x0cBoPwcSx-IVm0llVsLA";
+const clientId = "BD-o_TdBHjHOuKoRHvkouRcFDB00aToIftvdiET5nu4kcdrx0C-_yZP668ojVA2OZp03wGDajoKTuHMz-R4Uq2s";
 
 @Component({
   selector: "app-root",
@@ -27,15 +21,12 @@ const clientId = "BKPxkCtfC9gZ5dj-eg-W6yb5Xfr3XkxHuGZl2o2Bn8gKQ7UYike9Dh6c-_LaXl
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit{
-  title = "angular-app";
 
   chain: CHAIN_CONFIG_TYPE = "mainnet";
 
   network: WEB3AUTH_NETWORK_TYPE = "cyan";
 
-  isLoggedIn = false;
-
-  signedIn: boolean = false;
+  isLoggedIn!: boolean;
 
   domain: any = "none@none.none";
 
@@ -45,87 +36,97 @@ export class AppComponent implements OnInit{
 
   provider: IWalletProvider | null = null;
 
+  user: string = ""
+
   constructor(private loadingController: LoadingController,
     private apiService: ApiServiceService,
+    private userService: UserServiceService,
+    private alertController: AlertController
     ) {
-      this.web3auth = new Web3Auth({
-        clientId,
-        chainConfig: CHAIN_CONFIG[this.chain],
-      });
+
+      // this.web3auth = new Web3Auth({
+      //   clientId,
+      //   chainConfig: CHAIN_CONFIG[this.chain],
+      // });
+      this.isLoggedIn = userService.getUserLoginStatus()
       this.initAppToBackend()
     }
     
   ngOnInit(): void {
 
-    const subscribeAuthEvents = (web3auth: Web3Auth) => {
-      web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
-        console.log("Yeah!, you are successfully logged in", data);
-        this.setLoginStatus(true);
-      });
+    // const subscribeAuthEvents = (web3auth: Web3Auth) => {
+    //   web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
+    //     console.log("Yeah!, you are successfully logged in", data);
+    //     this.setLoginStatus(true);
+    //   });
 
-      web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
-        console.log("connecting");
-      });
+    //   web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
+    //     console.log("connecting");
+    //   });
 
-      web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
-        console.log("disconnected");
-        this.setLoginStatus(false);
-      });
+    //   web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
+    //     console.log("disconnected");
+    //     this.setLoginStatus(false);
+    //   });
 
-      web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
-        console.log("some error or user have cancelled login request", error);
-      });
-    };
+    //   web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+    //     console.log("some error or user have cancelled login request", error);
+    //   });
+    // };
 
-    const initializeModal = async () => {
-      console.log("INIT MODAL");
-      this.web3auth = new Web3Auth({
-        clientId,
-        chainConfig: CHAIN_CONFIG[this.chain],
-      });
-      const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
-      this.web3auth.configureAdapter(adapter);
+  //   const initializeModal = async () => {
+  //     console.log("INIT MODAL");
+  //     this.web3auth = new Web3Auth({
+  //       clientId,
+  //       chainConfig: CHAIN_CONFIG[this.chain],
+  //     });
+  //     const adapter = new OpenloginAdapter({ adapterSettings: { network: this.network, clientId } });
+  //     this.web3auth.configureAdapter(adapter);
 
-      subscribeAuthEvents(this.web3auth);
-      await this.web3auth.initModal();
-      this.isModalLoaded = true;
+  //     subscribeAuthEvents(this.web3auth);
+  //     await this.web3auth.initModal();
+  //     this.isModalLoaded = true;
 
-      if (this.isLoggedIn && !this.provider) {
-        const web3authProvider = await this.web3auth.connect();
-        if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-      }
-    };
-    initializeModal();
-  }
+  //     if (this.isLoggedIn && !this.provider) {
+  //       const web3authProvider = await this.web3auth.connect();
+  //       if (web3authProvider) this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+  //     }
+  //   };
+  //   initializeModal();
+  // }
 
-  selectChain(chain: string) {
-    this.chain = chain as CHAIN_CONFIG_TYPE;
-  }
+  // selectChain(chain: string) {
+  //   this.chain = chain as CHAIN_CONFIG_TYPE;
+  // }
 
-  selectNetwork(network: string) {
-    this.network = network as WEB3AUTH_NETWORK_TYPE;
-  }
+  // selectNetwork(network: string) {
+  //   this.network = network as WEB3AUTH_NETWORK_TYPE;
+  // }
 
-  setLoginStatus(status: boolean) {
-    this.isLoggedIn = status;
+  // setLoginStatus(status: boolean) {
+  //   this.isLoggedIn = status;
+  //   this.setLoginState(status)
   }
 
   initAppToBackend(){
-    // this.showProgressSpinner('Initializing, please wait')
     console.log("before init")
-    this.apiService.initializeFrontendWithTatumAPI_KEY().subscribe(async meta =>{
+    this.apiService.initializeFrontendWithServer().subscribe(async meta =>{
       let data:any = meta;
       console.log(data);
       let result:string = data['response']
       let message = data['message']
       console.log(result)
       if (result.toLowerCase() == 'ok'){
-        // await this.loadingController.dismiss(true);
         console.log("after init")
-      }else{ 
-        // this.showProgressSpinner('An error occurred, close the app!')
       }
-      // this.loadingController.dismiss(true);
+    }, async (error)=> {
+      let alert = await this.alertController.create({
+        header: "Error",
+        message: "Could not establish connection with server. Please close and reopen the app.",
+        backdropDismiss: true
+      })
+
+      await alert.present();
     })
   }
 
@@ -137,9 +138,6 @@ export class AppComponent implements OnInit{
       backdropDismiss: false
       }
     );
-    // if (this.signedIn == true){
-    //   loading.dismiss();
-    // }
     await loading.present()
   }
 
@@ -148,101 +146,113 @@ export class AppComponent implements OnInit{
   }
   
   async setAccount(user:any){
-    // this.showProgressSpinner('Loading/Resolving account, please wait');
     this.apiService.getUser(user).subscribe(
       meta => {
         let data:any = meta;
         console.log(data)
-        this.signedIn = this.apiService.setUsernameAndAccount(data['account_metadata'].customer_id, data['account_metadata'].account_id)
-        console.log(this.signedIn)
-        // this.loadingController.dismiss();
+        this.isLoggedIn = this.apiService.setUsernameAndAccount(data['account_metadata'].customer_id, data['account_metadata'].account_id)
+        this.userService.setUserLoginStatus(this.isLoggedIn)
+        console.log(this.isLoggedIn)
+      }, async (error) => {
+        let alert = await this.alertController.create({
+          header: "Error",
+          message: "Could not establish connection with server. Please close and reopen the app.",
+          backdropDismiss: true
+        })
+        await alert.present();
       }
     );
   }
-
-  async loginUnstoppable(){
-    console.log("on click pressed")
-    try {
-      const authorization = await uauth.loginWithPopup()
-      console.log(authorization.idToken.sub)
-      this.setAccount(authorization.idToken.sub);
-    } catch (error) {
-      console.error(error)
-    }
+  
+  getLoginState(){
+    this.isLoggedIn = this.userService.getUserLoginStatus();
   }
 
-  async loginWeb3Auth() {
-    console.log("LOGGING IN");
-    if (!this.web3auth) {
-      console.log("Web3auth is not initialized");
-      return;
-    }
-    const web3authProvider = await this.web3auth.connect();
-    if (web3authProvider){
-      this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
-      console.log(this.provider)
-      this.getUserInfo();
-    } 
-    this.getUserInfo()
+  setLoginState(state: boolean){
+    this.userService.setUserLoginStatus(state);
+    this.isLoggedIn = this.userService.getUserLoginStatus();
   }
 
-  async logout() {
-    console.log("LOGGING OUT");
-    if (!this.web3auth) {
-      console.log("Web3auth is not initialized");
-      return;
+  login(){
+    if(this.user == ""){
+      this.user = "test.wallet"
     }
-    await this.web3auth.logout();
-    this.provider = null;
-    this.signedIn = false;
+    this.setAccount(this.user)
   }
+  // async loginWeb3Auth() {
+  //   console.log("LOGGING IN");
+  //   this.setLoginState(true)
+  //   if (!this.web3auth) {
+  //     console.log("Web3auth is not initialized");
+  //     return;
+  //   }
+  //   const web3authProvider = await this.web3auth.connect();
+  //   if (web3authProvider){
+  //     this.provider = getWalletProvider(this.chain, web3authProvider, this.uiConsole);
+  //     console.log(this.provider)
+  //     this.getUserInfo();
+  //   } 
+  //   this.getUserInfo()
+  // }
 
-  async getUserInfo() {
-    console.log("GETTING USER INFO");
-    if (!this.web3auth) {
-      console.log("Web3auth is not initialized");
-      return;
-    }
-    const userInfo = await this.web3auth.getUserInfo();
-    console.log(userInfo)
-    let user = userInfo.email;
-    console.log(this.domain)
-    this.setAccount(user);
-    this.uiConsole("User Info", userInfo);
-  }
+  // async logout() {
+  //   console.log("LOGGING OUT");
+  //   if (!this.web3auth) {
+  //     console.log("Web3auth is not initialized");
+  //     return;
+  //   }
+  //   await this.web3auth.logout();
+  //   this.provider = null;
+  //   this.isLoggedIn = false;
+  // }
 
-  async getBalance() {
-    console.log("GETTING ACCOUNT BALANCE");
-    if (!this.provider) {
-      this.uiConsole("provider is not initialized");
-      return;
-    }
-    this.provider.getBalance();
-  }
+  // async getUserInfo() {
+  //   console.log("GETTING USER INFO");
+  //   if (!this.web3auth) {
+  //     console.log("Web3auth is not initialized");
+  //     return;
+  //   }
+  //   const userInfo = await this.web3auth.getUserInfo();
+  //   console.log(userInfo)
+  //   let user = userInfo.email;
+  //   console.log(this.domain)
+  //   this.setAccount(user);
+  //   this.uiConsole("User Info", userInfo);
+  // }
 
-  async getAccount() {
-    console.log("GETTING ACCOUNT");
-    if (!this.provider) {
-      this.uiConsole("provider is not initialized");
-      return;
-    }
-    this.provider.getAccounts();
-  }
+  // async getBalance() {
+  //   console.log("GETTING ACCOUNT BALANCE");
+  //   if (!this.provider) {
+  //     this.uiConsole("provider is not initialized");
+  //     return;
+  //   }
+  //   this.provider.getBalance();
+  // }
 
-  async signMessage() {
-    console.log("SIGNING MESSAGE");
-    if (!this.provider) {
-      this.uiConsole("provider is not initialized");
-      return;
-    }
-    this.provider.signMessage();
-  }
+  // async getAccount() {
+  //   console.log("GETTING ACCOUNT");
+  //   if (!this.provider) {
+  //     this.uiConsole("provider is not initialized");
+  //     return;
+  //   }
+  //   this.provider.getAccounts();
+  // }
 
-  uiConsole(...args: unknown[]): void {
-    const el = document.querySelector("#console-ui>p");
-    if (el) {
-      el.innerHTML = JSON.stringify(args || {}, null, 2);
-    }
-  }
+  // async signMessage() {
+  //   console.log("SIGNING MESSAGE");
+  //   if (!this.provider) {
+  //     this.uiConsole("provider is not initialized");
+  //     return;
+  //   }
+  //   this.provider.signMessage();
+  // }
+
+  // uiConsole(...args: unknown[]): void {
+  //   const el = document.querySelector("#console-ui>p");
+  //   if (el) {
+  //     el.innerHTML = JSON.stringify(args || {}, null, 2);
+  //   }
+  // }
+
 
 }

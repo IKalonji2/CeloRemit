@@ -1,0 +1,49 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar style="text-align: center;">
+      <ion-icon name="chevron-down-outline" style="color: rgb(0, 0, 0);" size="large"></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div style="text-align: center;">
+        <ion-label style="font-weight: 800;">Stake cUSD to lending pool</ion-label>
+    </div>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>Notice</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <p>
+                Please note that staking will reduce your avaliable
+                balance and you will not be able to use the funds unless 
+                withdrawn from the Lending pool. 
+                <br>
+                <br>
+                APY % is determined by the fees collected and distributed 
+                to the all the users that have staked fund in proportion 
+                to liquidity provided.
+            </p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-content>
+          <ion-input type="text" placeholder="Amount to stake" [(ngModel)]="amount"></ion-input>
+        </ion-card-content>
+    </ion-card>
+    <ion-card style="padding: 0%;">
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                  <ion-select placeholder="Select staking period" [multiple]="false" (ionChange)="setDuration($event)">
+                    <ion-select-option value="1">1 month</ion-select-option>
+                    <ion-select-option value="3">3 Months</ion-select-option>
+                    <ion-select-option value="6">6 months</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <ion-button (click)="submitStake()" expand="block" fill="solid" shape="round">
+        Stake cUSD
+    </ion-button>
+
+  </ion-content>

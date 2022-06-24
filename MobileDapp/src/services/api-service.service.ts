@@ -10,23 +10,22 @@ import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 export class ApiServiceService {
 
   API_URL: string;
-  API_KEY: string;
   username: string = '';
   userAccount: string = '';
   userContacts: string[] = [];
+
   accountBalance: string = '';
   accountAvailableBalance: string = '';
 
   constructor(private http: HttpClient,
     private platform: Platform) {
       this.API_URL = environment.urlLocal;
-      this.API_KEY = environment.API_KEY;  
     }
 
   setUsernameAndAccount(username:string, account:string){this.username = username; this.userAccount = account; return true;}
 
-  initializeFrontendWithTatumAPI_KEY(){
-    return this.http.get(this.API_URL+'/initialize',{headers:{'X-Api-Key':String(this.API_KEY)}})
+  initializeFrontendWithServer(){
+    return this.http.get(this.API_URL+'/server-state')
   }
 
   getUser(username:string) { return this.http.get(this.API_URL+`/user/`+username); }
@@ -73,11 +72,19 @@ export class ApiServiceService {
     return this.http.post(this.API_URL+`/escrow-clear/`+this.username, body);
   }
 
-  connectToUnstoppable(domain:string){
+  postStakeAmount(amount: string, duration: string){
     let body = {
-      login_hint: domain
+      amount: amount,
+      duration: duration
     }
-    return this.http.post("http://127.0.0.1:6000/login", body);
+    return this.http.post(this.API_URL+`/stake/`+this.username, body);
+  }
+
+  postBorrowAmount(amount: string){
+    let body = {
+      amount: amount,
+    }
+    return this.http.post(this.API_URL+`/borrow/`+this.username, body);
   }
 
 }

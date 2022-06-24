@@ -19,14 +19,23 @@ export class CreateQrComponent implements OnInit {
   // Need to specify the valid account address
   value : string = '';
 
-  constructor(private toastController: ToastController, private apiService: ApiServiceService, private modal: ModalController) { this.showQR()}
+  receiver: string ="";
+  username: string = "";
 
-  ngOnInit() {}
+
+  constructor(private toastController: ToastController, private apiService: ApiServiceService, private modal: ModalController) {
+    this.receiver = this.apiService.userAccount;
+    this.username = this.apiService.username;
+   }
+
+  ngOnInit() {
+    this.showQR()
+  }
 
   showQR(){
     let QRMetaData = {
-      receiver: this.apiService.userAccount,
-      username: this.apiService.username
+      receiver: this.receiver,
+      username: this.username
     };
     this.value = JSON.stringify(QRMetaData);
     console.log(this.value)
