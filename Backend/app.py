@@ -78,10 +78,7 @@ def contacts(username):
 def balance(username):
     global wallet
     account_id = accounts_dict[username].user["account_id"]
-    balance_data = get_balance(account_id, wallet.key)
-    balance_data["tree_points"] = accounts_dict[username].user["tree_points"]
-    balance_data["staked"] = accounts_dict[username].user["staked"]
-    balance_data["outstanding"] = accounts_dict[username].user["outstanding"]
+    balance_data = get_balance(username,account_id, wallet.key)
     response = {
         "result": "OK",
         "balance": balance_data

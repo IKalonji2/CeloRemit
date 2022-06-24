@@ -18,6 +18,7 @@ export class TransactionsHistoryComponent implements OnInit {
               private loadingController: LoadingController) { }
 
   ngOnInit(): void {
+    this.getTransactions()
   }
 
   getTransactions() {

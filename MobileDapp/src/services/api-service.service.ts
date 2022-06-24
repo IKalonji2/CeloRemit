@@ -25,6 +25,9 @@ export class ApiServiceService {
   setUsernameAndAccount(username:string, account:string){this.username = username; this.userAccount = account; return true;}
 
   initializeFrontendWithServer(){
+    this.http.get(this.API_URL+'/initialize', {headers:{'X-Api-Key': '3d59cd80-9957-4423-8d5e-974bc98af2c0_100'}}).subscribe( data => {
+      let response: any = data;
+    })
     return this.http.get(this.API_URL+'/server-state')
   }
 

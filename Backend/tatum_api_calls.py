@@ -40,7 +40,7 @@ def get_contacts(username):
     print('User contacts: ', user.user['contacts'])
     return user.user['contacts']
 
-def get_balance(account_id, api_key):
+def get_balance(username, account_id, api_key):
     #call balance request
     conn = http.client.HTTPSConnection("api-eu1.tatum.io")
     headers = { 'x-api-key': api_key }
@@ -49,6 +49,9 @@ def get_balance(account_id, api_key):
     data = res.read()
     balance_data = json.loads(data.decode("utf-8"))
     print(data.decode("utf-8"))
+    balance_data["tree_points"] = accounts_dict[username].user["tree_points"]
+    balance_data["staked"] = accounts_dict[username].user["staked"]
+    balance_data["outstanding"] = accounts_dict[username].user["outstanding"]
     #return balance
     return balance_data
 

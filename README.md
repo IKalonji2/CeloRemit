@@ -19,12 +19,14 @@
   <h3 align="center">CeloRemit</h3>
 
   <p align="center">
-    An awesome lightweight P2P payments and escrow wallet with Unstoppable Domains login + resolution, Transak and Web3Auth social login integration! 
+    An awesome lightweight P2P escrow, lending and payments dApp that encompass  rewards and sustainabilty for its users. 
     <br />
     <a href="https://github.com/IKalonji2/CeloRemit/blob/main/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://youtu.be/xhwSZAAwND8">View Demo</a>
+    <a href="https://youtu.be/W55vHOQBN3Y">Video Demo</a>
+    ·
+    <a href="https://celo-remit.vercel.app">Live Vercel Demo</a>
     ·
     <a href="https://github.com/IKalonji2/CeloRemit/issues">Report Bug</a>
     ·
@@ -67,29 +69,36 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/IKalonji2/CeloRemit/blob/main/README.md)
 
-CeloRemit is a micro P2P custodial payment wallet that enables Africans to inter-transact digitaly by using a simple top up voucher. Currently 60% of Africa relay on cash and only 70% have acive Bank acounts. Making it increasingly difficult to move money around.
+CeloRemit is a micro P2P custodial payment wallet that enables Africans to inter-transact digitaly by using a simple payment dApp with multiple functionalities. Currently 60% of Africa relay on cash and only 30% have acive Bank acounts. Making it increasingly difficult to move money around.
 
 Here's why:
 * CeloRemit, is secure and payments are immediate and seamless, using the virtual currency. 
 * The escrow payment option provides a secure enviroment for payments when paying for future goods or services
+* Users can stake their cUSD to the lending pool and earn on fees charged.
+* Sustainability rewards for users as they transact, giving back to the environment.
 * Immediate access to all your CeloRemit contacts.
 
 CeloRemit eliminates the need for a bank accounts, and the use of cash in the Market place as well as daily use of cash.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Live demo dApp on Vercel
+
+[CeloRemit](celo-remit.vercel.app)
+
+### Backend hosted on Heroku
+[CeloRemit-Backend](https://celo-remit.herokuapp.com)
+
 
 
 ### Built With
 
 * [Celo](https://celo.org/)
-* [Unstoppable Domains](https://unstoppabledomains.com/)
 * [Transak](https://transak.gitbook.io/)
 * [Tatum](https://tatum.io/)
 * [Ionic](https://ionicframework.com/)
 * [Angular](https://angular.io/)
 * [Python](https://www.python.org/)
-* [Web3Auth](https://web3auth.io/)
 * [Android Studio](https://developer.android.com/studio)
 * [Ngrok](https://ngrok.com/)
 
@@ -199,10 +208,12 @@ Please install the below required software in order to run the project.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-[Video Demo](https://youtu.be/xhwSZAAwND8)
+[CeloRemit-Live-Demo](celo-remit.vercel.app)
+
+[Video Demo](https://youtu.be/W55vHOQBN3Y)
 
 
-[![DEMO](https://img.youtube.com/vi/xhwSZAAwND8/0.jpg)](https://youtu.be/xhwSZAAwND8)
+[![DEMO](https://img.youtube.com/vi/W55vHOQBN3Y/0.jpg)](https://youtu.be/W55vHOQBN3Y)
 
 _Please refer to the [Documentation](https://github.com/IKalonji2/CeloRemit/blob/main/README.md)_
 
@@ -215,7 +226,6 @@ _Please refer to the [Documentation](https://github.com/IKalonji2/CeloRemit/blob
 - [ ] Add live Card payments with Transak
 - [ ] Add Voucher provider
 - [ ] Add App security
-- [ ] Add backend hosting
 - [ ] Multi-language Support
     - [ ] Swahili
     - [ ] Zulu
@@ -290,4 +300,4 @@ Project Link: [https://github.com/IKalonji2/CeloRemit](https://github.com/IKalon
 [license-url]: https://github.com/IKalonji2/CeloRemit/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/issa-kalonji-b301851ba/
-[product-screenshot]: https://img.youtube.com/vi/xhwSZAAwND8/0.jpg
+[product-screenshot]: https://img.youtube.com/vi/W55vHOQBN3Y/0.jpg
